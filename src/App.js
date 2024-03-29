@@ -31,6 +31,7 @@ package.json : 프로젝트 정보
 
 import logo from './logo.svg';
 import './App.css';       // CSS 경로를 입력하면 잘 추가됨
+import { useState } from 'react';
 
 // JSX
 // [1] class -> className (자바스크립트 코드와 곂쳐서 변경)
@@ -40,14 +41,47 @@ import './App.css';       // CSS 경로를 입력하면 잘 추가됨
 
 function App() {
   // 여기에 코딩, return 안에 html 작성
-  let 서버에서받은값 = '신촌 돈가스 맛집'       // [2] JSX : 변수는 중괄호로 이용!! (데이터바인딩 == 서버에서 받은 데이터를 화면에 넣기)
+  let 서버에서받은값 = '블로그임'       // [2] JSX : 변수는 중괄호로 이용!! (데이터바인딩 == 서버에서 받은 데이터를 화면에 넣기)
+  // 값을 보관할 때 변수 또는 state 를 사용
+  let [getValue, setValue] = useState('남자 코트 추천')
+  // state 사용 이유 : 변수 값이 바뀌면 자동으로 화면에도 반영하기 위해서 (데이터바인딩)
+  // 변수는 변경이 되어도 html 화면에 재랜더링이 되지 않음...
+
+  // 따라서, 자주변경될것 같은 html은 useState로 저장하고
+  // 자주변경되지않을 것 같은 html은 변수에 저장
+  let [getTitle, setTitle] = useState(['남성 코트 추천', '여성 코트 추천', '신촌 맛집 추천'])
+  let [getDateTime, setDateTime] = useState(['2024-03-29', '2024-03-27', '2024-03-26'])
+  let [getSecondScore, setSecondScore] = useState(0)
+  let [getScore, setScore] = useState([0, 0, 0])
+
+  function 함수1(){
+    // getScore[0] 을 +1 시키겠다
+    setScore((prev) => {
+      const updateSources = [...prev]
+      updateSources[0] += 1
+      return updateSources
+    })
+  }
 
   return (
     <div className="App">
       <div className="black-nav">
-        <h4 id={서버에서받은값} style={{color:'red', fontSize:'16px'}}>블로그임</h4>
+        <img src={logo} alt="..." width="100px" height="100px"/>
+        <h4 id={서버에서받은값} style={{color:'yellowgreen', fontSize:'20px'}}>{서버에서받은값}</h4>
       </div>
-      <h4>{서버에서받은값}</h4>
+
+      <div className="list">
+        <h4>{getValue} <span onClick={함수1}>👍</span> {getScore[0]} </h4>
+        <p>{getDateTime[0]}</p>
+      </div>
+      <div className="list">
+        <h4>{getTitle[1]} <span onClick={()=>{setSecondScore(getSecondScore + 1)}}>👍</span> {getSecondScore} </h4>
+        <p>{getDateTime[1]}</p>
+      </div>
+      <div className="list">
+        <h4>{getTitle[2]} <span>👍</span> {getScore[2]} </h4>
+        <p>{getDateTime[2]}</p>
+      </div>
     </div>
   );
 }
