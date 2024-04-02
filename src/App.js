@@ -70,6 +70,14 @@ function App() {
         <h4 id={서버에서받은값} style={{color:'yellowgreen', fontSize:'20px'}}>{서버에서받은값}</h4>
       </div>
 
+      <button onClick={()=>{
+        let copy = [...getTitle]
+        copy[1] = '여성 가을 코트 추천'
+        setTitle(copy)
+      }}>버튼</button>
+      <button onClick={()=>{
+        
+      }}>정렬하기</button>
       <div className="list">
         <h4>{getValue} <span onClick={함수1}>👍</span> {getScore[0]} </h4>
         <p>{getDateTime[0]}</p>
