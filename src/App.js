@@ -39,6 +39,8 @@ import { useState } from 'react';
 // [3] - 기호는 뺄셈이기 때문에 대문자로 변경 (font-size ==> fontSize)
 // [4] 스타일은 object 자료형 형식으로 입력
 
+
+// <App/> 컴포넌트
 function App() {
   // 여기에 코딩, return 안에 html 작성
   let 서버에서받은값 = '블로그임'       // [2] JSX : 변수는 중괄호로 이용!! (데이터바인딩 == 서버에서 받은 데이터를 화면에 넣기)
@@ -53,15 +55,9 @@ function App() {
   let [getDateTime, setDateTime] = useState(['2024-03-29', '2024-03-27', '2024-03-26'])
   let [getSecondScore, setSecondScore] = useState(0)
   let [getScore, setScore] = useState([0, 0, 0])
-
-  function 함수1(){
-    // getScore[0] 을 +1 시키겠다
-    setScore((prev) => {
-      const updateSources = [...prev]
-      updateSources[0] += 1
-      return updateSources
-    })
-  }
+  
+  let [modal, setModal] = useState(false)         // 컴포넌트의 현재 UI의 상태를 false로 저장 (상태변경 스위치)
+  // html/css 만들고, UI현재상태를 useState에 저장, state를 변경하면서 UI가 어떻게 보일지 작성
 
   return (
     <div className="App">
@@ -79,7 +75,13 @@ function App() {
         
       }}>정렬하기</button>
       <div className="list">
-        <h4>{getValue} <span onClick={함수1}>👍</span> {getScore[0]} </h4>
+        <h4>{getValue} <span onClick={()=>{
+          setScore((prev) => {
+            const updateSources = [...prev]
+            updateSources[0] += 1
+            return updateSources
+          })
+        }}>👍</span> {getScore[0]} </h4>
         <p>{getDateTime[0]}</p>
       </div>
       <div className="list">
@@ -87,11 +89,40 @@ function App() {
         <p>{getDateTime[1]}</p>
       </div>
       <div className="list">
-        <h4>{getTitle[2]} <span>👍</span> {getScore[2]} </h4>
+        <h4  onClick={()=>{setModal(!modal)}}>{getTitle[2]} <span onClick={()=>{
+          setScore((prev) => {
+            const updateSources = [...prev]
+            updateSources[2] += 1
+            return updateSources
+          })
+        }}>👍</span> {getScore[2]} </h4>
         <p>{getDateTime[2]}</p>
       </div>
+      
+      {
+        // 자바스크립트 코드 넣으려면 {}
+        // if(){} 를 못써서 삼항연산자로
+        modal == true ? <Modal/> : null
+      }
+      
     </div>
   );
+}
+
+// 컴포넌트 만드는 법 (지역변수는 공유가 안되니 덩어리를 잘 분리해야함)
+// 1. function 만든다
+// 2. return 안에 html 담는다 (하나의 태그셋으로)
+// 3. <함수명/> 으로 사용한다
+function Modal(){
+  return (
+    <>
+      <div className="modal">
+        <h4>제목</h4>
+        <p>날짜</p>
+        <p>상세내용</p>
+      </div>
+    </>
+  )
 }
 
 export default App;
