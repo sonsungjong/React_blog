@@ -59,6 +59,7 @@ function App() {
   let [modal, setModal] = useState(false)         // 컴포넌트의 현재 UI의 상태를 false로 저장 (상태변경 스위치)
   // html/css 만들고, UI현재상태를 useState에 저장, state를 변경하면서 UI가 어떻게 보일지 작성
 
+
   return (
     <div className="App">
       <div className="black-nav">
@@ -98,11 +99,21 @@ function App() {
         }}>👍</span> {getScore[2]} </h4>
         <p>{getDateTime[2]}</p>
       </div>
-      
+        
       {
         // 자바스크립트 코드 넣으려면 {}
         // if(){} 를 못써서 삼항연산자로
         modal == true ? <Modal/> : null
+      }
+
+      {
+        // list를 반복시켜보자
+        // 중괄호 안에서는 for반복문이 아니라 map() 을 사용
+        [1,2,3].map(function(a){
+          console.log(a)
+          return (<div>안녕</div>)       // 배열로 담아줌 [<div>안녕</div>, <div>안녕</div>, <div>안녕</div>]
+        })
+      
       }
       
     </div>
