@@ -60,6 +60,7 @@ function App() {
   // html/css 만들고, UI현재상태를 useState에 저장, state를 변경하면서 UI가 어떻게 보일지 작성
 
   let [getTitleNum, setTitleNum] = useState(0)
+  let [getInputValue, setInputValue] = useState('')
 
   return (
     <div className="App">
@@ -76,22 +77,62 @@ function App() {
         getTitle.map(function(element, idx){
           return (
             <div className="list" key={idx}>
-            <h4 onClick={()=>{
-              setTitleNum(idx)
-              setModal(true)
-            }}>{element} <span onClick={()=>{
-              setScore((prev)=>{
-                const updateSources = [...prev]
-                updateSources[idx] += 1
-                return updateSources
-              })
-            }}>👍</span> {getScore[idx]} </h4>
-            <p>{getDateTime[idx]}</p>
-          </div>
+              <h4 onClick={()=>{
+                setTitleNum(idx)
+                setModal(true)
+              }}>{element} <span onClick={(e)=>{
+                e.stopPropagation()
+                setScore((prev)=>{
+                  const updateSources = [...prev]
+                  updateSources[idx] += 1
+                  return updateSources
+                })
+              }}>👍</span> {getScore[idx]} </h4> 
+              <button onClick={()=>{
+                  setTitle(()=>{
+                    let titleArr = [...getTitle]
+                    titleArr.splice(idx, 1)
+                    return titleArr
+                  })
+                  setDateTime((prev)=>{
+                    let dateTimeArr = [...prev]
+                    dateTimeArr.splice(idx, 1)
+                    return dateTimeArr
+                  })
+                  setScore((score)=>{
+                    let scoreArr = [...score]
+                    scoreArr.splice(idx, 1)
+                    return scoreArr
+                  })
+                }
+              }>삭제</button>
+              <p>{getDateTime[idx]} 작성</p>
+            </div>
           )       // 배열로 담아줌 [<div>안녕</div>, <div>안녕</div>, <div>안녕</div>]
         })
       
       }
+
+      <input type="text" onChange={(e)=>{
+        setInputValue(e.target.value)
+        console.log(getInputValue)
+      }}/><button onClick={(e)=>{
+        setTitle(()=>{
+          let titleArr = [...getTitle]
+          titleArr.unshift(getInputValue)
+          return titleArr
+        })
+        setDateTime((prev)=>{
+          let dateTimeArr = [...prev]
+          dateTimeArr.unshift('2024-04-01')
+          return dateTimeArr
+        })
+        setScore((score)=>{
+          let scoreArr = [...score]
+          scoreArr.unshift(0)
+          return scoreArr
+        })
+      }}>추가</button>
 
       {
         // 자바스크립트 코드 넣으려면 {}
