@@ -67,7 +67,7 @@ function App() {
         <h4 id={서버에서받은값} style={{color:'yellowgreen', fontSize:'20px'}}>{서버에서받은값}</h4>
       </div>
 
-      
+
       {
         // list를 반복시켜보자
         // 중괄호 안에서는 for반복문이 아니라 map() 을 사용
@@ -91,7 +91,7 @@ function App() {
       {
         // 자바스크립트 코드 넣으려면 {}
         // if(){} 를 못써서 삼항연산자로
-        modal == true ? <Modal/> : null
+        modal == true ? <Modal 작명={getTitle} 색깔={'skyblue'} 날짜={getDateTime} 글제목변경={setTitle}/> : null
       }
       
     </div>
@@ -102,13 +102,21 @@ function App() {
 // 1. function 만든다
 // 2. return 안에 html 담는다 (하나의 태그셋으로)
 // 3. <함수명/> 으로 사용한다
-function Modal(){
+function Modal(props)
+{
   return (
     <>
-      <div className="modal">
-        <h4>제목</h4>
-        <p>날짜</p>
+      <div className="modal" style={{background: props.색깔}}>
+        <h4>{props.작명[0]}</h4>
+        <p>{props.날짜[0]}</p>
         <p>상세내용</p>
+        <button onClick={()=>{
+          props.글제목변경((prev)=>{
+            const titleSrc = [...prev]
+            titleSrc[0] = '우리 코트 추천'
+            return titleSrc
+          })
+        }}>글수정</button>
       </div>
     </>
   )
