@@ -67,53 +67,31 @@ function App() {
         <h4 id={서버에서받은값} style={{color:'yellowgreen', fontSize:'20px'}}>{서버에서받은값}</h4>
       </div>
 
-      <button onClick={()=>{
-        let copy = [...getTitle]
-        copy[1] = '여성 가을 코트 추천'
-        setTitle(copy)
-      }}>버튼</button>
-      <button onClick={()=>{
-        
-      }}>정렬하기</button>
-      <div className="list">
-        <h4>{getValue} <span onClick={()=>{
-          setScore((prev) => {
-            const updateSources = [...prev]
-            updateSources[0] += 1
-            return updateSources
-          })
-        }}>👍</span> {getScore[0]} </h4>
-        <p>{getDateTime[0]}</p>
-      </div>
-      <div className="list">
-        <h4>{getTitle[1]} <span onClick={()=>{setSecondScore(getSecondScore + 1)}}>👍</span> {getSecondScore} </h4>
-        <p>{getDateTime[1]}</p>
-      </div>
-      <div className="list">
-        <h4  onClick={()=>{setModal(!modal)}}>{getTitle[2]} <span onClick={()=>{
-          setScore((prev) => {
-            const updateSources = [...prev]
-            updateSources[2] += 1
-            return updateSources
-          })
-        }}>👍</span> {getScore[2]} </h4>
-        <p>{getDateTime[2]}</p>
-      </div>
-        
+      
+      {
+        // list를 반복시켜보자
+        // 중괄호 안에서는 for반복문이 아니라 map() 을 사용
+        getTitle.map(function(element, idx){
+          return (
+            <div className="list" key={idx}>
+            <h4 onClick={()=>{setModal(!modal)}}>{element} <span onClick={()=>{
+              setScore((prev)=>{
+                const updateSources = [...prev]
+                updateSources[idx] += 1
+                return updateSources
+              })
+            }}>👍</span> {getScore[idx]} </h4>
+            <p>{getDateTime[idx]}</p>
+          </div>
+          )       // 배열로 담아줌 [<div>안녕</div>, <div>안녕</div>, <div>안녕</div>]
+        })
+      
+      }
+
       {
         // 자바스크립트 코드 넣으려면 {}
         // if(){} 를 못써서 삼항연산자로
         modal == true ? <Modal/> : null
-      }
-
-      {
-        // list를 반복시켜보자
-        // 중괄호 안에서는 for반복문이 아니라 map() 을 사용
-        [1,2,3].map(function(a){
-          console.log(a)
-          return (<div>안녕</div>)       // 배열로 담아줌 [<div>안녕</div>, <div>안녕</div>, <div>안녕</div>]
-        })
-      
       }
       
     </div>
