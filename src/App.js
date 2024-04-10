@@ -31,7 +31,7 @@ package.json : 프로젝트 정보
 
 import logo from './logo.svg';
 import './App.css';       // CSS 경로를 입력하면 잘 추가됨
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // JSX
 // [1] class -> className (자바스크립트 코드와 곂쳐서 변경)
@@ -141,6 +141,8 @@ function App() {
         modal == true ? <Modal 작명={getTitle} 색깔={'skyblue'} 날짜={getDateTime} 글제목변경={setTitle} titleNum={getTitleNum}/> : null
       }
       
+      <OldModal/>
+      
     </div>
   );
 }
@@ -167,6 +169,30 @@ function Modal(props)
       </div>
     </>
   )
+}
+
+
+// 컴포넌트는 긴 HTML을 별도로 분리
+class OldModal extends React.Component
+{
+  constructor(props){
+    super(props)
+    this.state = {
+      name:'kim',
+      age:20
+    }
+  }
+
+  render(){
+    return(
+      <div>
+        안녕하세요 {this.state.age}
+        <button onClick={()=>{
+          this.setState({age:21})
+        }}>버튼</button>
+      </div>
+    )
+  }
 }
 
 export default App;
