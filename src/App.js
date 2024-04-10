@@ -59,6 +59,7 @@ function App() {
   let [modal, setModal] = useState(false)         // 컴포넌트의 현재 UI의 상태를 false로 저장 (상태변경 스위치)
   // html/css 만들고, UI현재상태를 useState에 저장, state를 변경하면서 UI가 어떻게 보일지 작성
 
+  let [getTitleNum, setTitleNum] = useState(0)
 
   return (
     <div className="App">
@@ -71,10 +72,14 @@ function App() {
       {
         // list를 반복시켜보자
         // 중괄호 안에서는 for반복문이 아니라 map() 을 사용
+        // 반복문 돌릴땐 key={} 로 컴포넌트마다 구분자가 필요
         getTitle.map(function(element, idx){
           return (
             <div className="list" key={idx}>
-            <h4 onClick={()=>{setModal(!modal)}}>{element} <span onClick={()=>{
+            <h4 onClick={()=>{
+              setTitleNum(idx)
+              setModal(true)
+            }}>{element} <span onClick={()=>{
               setScore((prev)=>{
                 const updateSources = [...prev]
                 updateSources[idx] += 1
@@ -91,7 +96,8 @@ function App() {
       {
         // 자바스크립트 코드 넣으려면 {}
         // if(){} 를 못써서 삼항연산자로
-        modal == true ? <Modal 작명={getTitle} 색깔={'skyblue'} 날짜={getDateTime} 글제목변경={setTitle}/> : null
+        // state를 props에 전달
+        modal == true ? <Modal 작명={getTitle} 색깔={'skyblue'} 날짜={getDateTime} 글제목변경={setTitle} titleNum={getTitleNum}/> : null
       }
       
     </div>
@@ -107,13 +113,13 @@ function Modal(props)
   return (
     <>
       <div className="modal" style={{background: props.색깔}}>
-        <h4>{props.작명[0]}</h4>
-        <p>{props.날짜[0]}</p>
+        <h4>{props.작명[props.titleNum]}</h4>
+        <p>{props.날짜[props.titleNum]}</p>
         <p>상세내용</p>
         <button onClick={()=>{
           props.글제목변경((prev)=>{
             const titleSrc = [...prev]
-            titleSrc[0] = '우리 코트 추천'
+            titleSrc[props.titleNum] = '우리 코트 추천'
             return titleSrc
           })
         }}>글수정</button>
