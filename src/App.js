@@ -172,7 +172,7 @@ function Modal(props)
 }
 
 
-// 컴포넌트는 긴 HTML을 별도로 분리
+// 컴포넌트는 긴 HTML을 별도로 분리 (첫글자 대문자)
 class OldModal extends React.Component
 {
   constructor(props){
@@ -197,3 +197,9 @@ class OldModal extends React.Component
 
 export default App;
 
+// npm start
+// npm run build
+
+// 레포지토리 : readme file 생성체크
+// https://이름.github.io
+// ctrl + shift + r
