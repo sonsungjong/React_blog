@@ -43,54 +43,52 @@ import React, { useState } from 'react';
 // <App/> 컴포넌트
 function App() {
   // 여기에 코딩, return 안에 html 작성
-  let 서버에서받은값 = '블로그임'       // [2] JSX : 변수는 중괄호로 이용!! (데이터바인딩 == 서버에서 받은 데이터를 화면에 넣기)
+  let 변수 = '서버에서받은값'       // [2] JSX : 변수는 중괄호로 이용!! (데이터바인딩 == 서버에서 받은 데이터를 화면에 넣기)
   // 값을 보관할 때 변수 또는 state 를 사용
-  let [getValue, setValue] = useState('남자 코트 추천')
+  let [value, setValue] = useState('서버에서 실시간으로 받는 값')
   // state 사용 이유 : 변수 값이 바뀌면 자동으로 화면에도 반영하기 위해서 (데이터바인딩)
   // 변수는 변경이 되어도 html 화면에 재랜더링이 되지 않음...
 
   // 따라서, 자주변경될것 같은 html은 useState로 저장하고
   // 자주변경되지않을 것 같은 html은 변수에 저장
-  let [getTitle, setTitle] = useState(['남성 코트 추천', '여성 코트 추천', '신촌 맛집 추천'])
-  let [getDateTime, setDateTime] = useState(['2024-03-29', '2024-03-27', '2024-03-26'])
-  let [getSecondScore, setSecondScore] = useState(0)
-  let [getScore, setScore] = useState([0, 0, 0])
+  let [title, setTitle] = useState(['신촌 맛집 탐방', '일본 여행 후기', '국내 여행지 추천'])
+  let [dateTime, setDateTime] = useState(['2024-01-29', '2024-01-27', '2024-01-26'])
+  let [score, setScore] = useState([0, 0, 0])
   
   let [modal, setModal] = useState(false)         // 컴포넌트의 현재 UI의 상태를 false로 저장 (상태변경 스위치)
   // html/css 만들고, UI현재상태를 useState에 저장, state를 변경하면서 UI가 어떻게 보일지 작성
 
-  let [getTitleNum, setTitleNum] = useState(0)
-  let [getInputValue, setInputValue] = useState('')
+  let [titleNum, setTitleNum] = useState(0)
+  let [inputValue, setInputValue] = useState('')
 
   return (
     <div className="App">
       <div className="black-nav">
         <img src={logo} alt="..." width="100px" height="100px"/>
-        <h4 id={서버에서받은값} style={{color:'yellowgreen', fontSize:'20px'}}>{서버에서받은값}</h4>
+        <h4 id={변수} style={{color:'yellowgreen', fontSize:'20px'}}>{value}</h4>
       </div>
-
 
       {
         // list를 반복시켜보자
         // 중괄호 안에서는 for반복문이 아니라 map() 을 사용
         // 반복문 돌릴땐 key={} 로 컴포넌트마다 구분자가 필요
-        getTitle.map(function(element, idx){
+        title.map(function(element, idx){
           return (
             <div className="list" key={idx}>
               <h4 onClick={()=>{
-                setTitleNum(idx)
+                setTitleNum(idx)        // 추가
                 setModal(true)
               }}>{element} <span onClick={(e)=>{
                 e.stopPropagation()
                 setScore((prev)=>{
-                  const updateSources = [...prev]
-                  updateSources[idx] += 1
-                  return updateSources
+                  let src = [...prev]
+                  src[idx] += 1
+                  return src
                 })
-              }}>👍</span> {getScore[idx]} </h4> 
+              }}>👍</span> {score[idx]} </h4> 
               <button onClick={()=>{
                   setTitle(()=>{
-                    let titleArr = [...getTitle]
+                    let titleArr = [...title]
                     titleArr.splice(idx, 1)
                     return titleArr
                   })
@@ -106,25 +104,26 @@ function App() {
                   })
                 }
               }>삭제</button>
-              <p>{getDateTime[idx]} 작성</p>
+              <p>{dateTime[idx]} 작성</p>
             </div>
-          )       // 배열로 담아줌 [<div>안녕</div>, <div>안녕</div>, <div>안녕</div>]
+          )       
         })
       
       }
 
       <input type="text" onChange={(e)=>{
         setInputValue(e.target.value)
-        console.log(getInputValue)
+        //console.log(inputValue)
       }}/><button onClick={(e)=>{
         setTitle(()=>{
-          let titleArr = [...getTitle]
-          titleArr.unshift(getInputValue)
+          let titleArr = [...title]
+          titleArr.unshift(inputValue)
           return titleArr
         })
         setDateTime((prev)=>{
           let dateTimeArr = [...prev]
-          dateTimeArr.unshift('2024-04-01')
+          let currentDate = new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
+          dateTimeArr.unshift(currentDate);
           return dateTimeArr
         })
         setScore((score)=>{
@@ -138,10 +137,10 @@ function App() {
         // 자바스크립트 코드 넣으려면 {}
         // if(){} 를 못써서 삼항연산자로
         // state를 props에 전달
-        modal == true ? <Modal 작명={getTitle} 색깔={'skyblue'} 날짜={getDateTime} 글제목변경={setTitle} titleNum={getTitleNum}/> : null
+        modal == true ? <Modal 작명={title} 색깔={'skyblue'} 날짜={dateTime} 글제목변경={setTitle} titleNum={titleNum}/> : null
       }
       
-      <OldModal/>
+      
       
     </div>
   );
@@ -162,7 +161,7 @@ function Modal(props)
         <button onClick={()=>{
           props.글제목변경((prev)=>{
             const titleSrc = [...prev]
-            titleSrc[props.titleNum] = '우리 코트 추천'
+            titleSrc[props.titleNum] = '글 제목 변경'
             return titleSrc
           })
         }}>글수정</button>
